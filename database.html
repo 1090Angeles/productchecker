@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Database</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #80AF46;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 10px;
+}
+
+main {
+    padding: 1rem;
+}
+
+.form-container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Space between elements */
+}
+
+input {
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    width: 100%; /* Full width for responsiveness */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+button {
+    padding: 0.5rem;
+    cursor: pointer;
+    width: 100%; /* Full width for responsiveness */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+@media (min-width: 600px) {
+    .form-container {
+        flex-direction: row; /* Row layout for larger screens */
+        align-items: center; /* Center items vertically */
+    }
+
+    input {
+        margin-right: 0.5rem; /* Space between input and button */
+        width: auto; /* Reset width for row layout */
+        flex: 1; /* Allow input to grow */
+    }
+
+    button {
+        width: auto; /* Reset width for row layout */
+    }
+}
+
+@media (max-width: 600px) {
+    input, button {
+        width: 100%; /* Full width for smaller screens */
+        margin-bottom: 0.5rem; /* Space between elements */
+    }
+}
+
+.red-text {
+    color: red;
+}
+</style>
+<body>
+    <header>
+        <h1>Product Database</h1>
+    </header>
+    <main>
+        <div class="form-container">
+            <input type="text" id="productName" placeholder="Product">
+            <input type="text" id="aisleNumber" placeholder="Aisle Number">
+            <button id="addProductButton">Add Product</button>
+            <button id="clearDBButton">Clear DB</button>
+        </div>
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Aisle Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+        </table>
+    </main>
+    <script>
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+
+document.getElementById('addProductButton').addEventListener('click', function() {
+    const productName = document.getElementById('productName').value;
+    const aisleNumber = document.getElementById('aisleNumber').value;
+
+    if (productName && aisleNumber) {
+        const productId = Date.now();
+        products.push({ id: productId, name: productName, aisleNumber: aisleNumber });
+        localStorage.setItem('products', JSON.stringify(products));
+        renderTable();
+        clearInputs();
+    }
+});
+
+ document.getElementById('clearDBButton').addEventListener('click', function() {
+    localStorage.removeItem('products');
+    products = [];
+    renderTable();
+});
+
+function renderTable() {
+    const productTableBody = document.getElementById('productTableBody');
+    productTableBody.innerHTML = '';
+
+    products.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${product.name}</td>
+            <td>${product.aisleNumber}</td>
+            <td>
+                <button onclick="editProduct(${product.id})">Edit</button>
+                <button onclick="deleteProduct(${product.id})">Delete</button>
+            </td>
+        `;
+        productTableBody.appendChild(row);
+    });
+}
+
+function editProduct(id) {
+    const product = products.find(p => p.id === id);
+    if (product) {
+        document.getElementById('productName').value = product.name;
+        document.getElementById('aisleNumber').value = product.aisleNumber;
+        deleteProduct(id);
+    }
+}
+
+function deleteProduct(id) {
+    products = products.filter(p => p.id !== id);
+    localStorage.setItem('products', JSON.stringify(products));
+    renderTable();
+}
+
+function clearInputs() {
+    document.getElementById('productName').value = '';
+    document.getElementById('aisleNumber').value = '';
+}
+
+// Initial render
+renderTable();
+    </script>
+</body>
+</html>
