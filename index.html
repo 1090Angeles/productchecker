@@ -11,6 +11,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .header {
@@ -25,8 +26,8 @@ body {
     left: 20px;
     top: 50%; 
     transform: translateY(-50%); 
-    width: 150px; 
-    height: 50px; 
+    width: 160px; 
+    height: 40px; 
 }
 
 .header-title {
@@ -34,7 +35,7 @@ body {
     text-align: center; 
     color: #fff;
     position: absolute; 
-    left: 70%; 
+    left: 65%; 
     transform: translateX(-50%); 
     top: 50%; 
     transform: translate(-50%, -50%);
@@ -43,16 +44,22 @@ body {
 
 
 button {
-    margin: 5px;
+    
     background-color: #28a745;
     color: white;
     border-radius: 5px;
     border: 1px solid darkgray;
-    padding: 5px 10px;
+   
 }
 
 main {
     padding: 1rem;
+}
+
+main h3 {
+    padding: 2px;
+    color: gray;
+    text-align: center;
 }
 
 .form-container {
@@ -69,11 +76,6 @@ input {
     box-sizing: border-box; /* Include padding in width */
 }
 
-button {
-    padding: 0.5rem;
-    cursor: pointer;
-    width: 100%; /* Full width for responsiveness */
-}
 
 table {
     width: 100%;
@@ -117,19 +119,36 @@ th {
 .red-text {
     color: red;
 }
+
+section {
+    text-align: center; /* Center the content of the section */
+    margin: 10px 0; /* Optional: Add some margin for spacing */
+}
+
+section img {
+    max-width: 100%; /* Make the image responsive */
+    height: 260px; /* Maintain aspect ratio */
+    display: block; /* Make the image a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
 </style>
 <body>
     <header class="header">
-        <a href="database.html"><img src="logo1.png" alt="Logo" class="header-image"></a>
+        <a href="database.html"><img src="logo2.png" alt="Logo" class="header-image"></a>
         <h2 class="header-title">Product Checker</h2>
     </header>
     <main>
+        <h3>Welcome to Landers Superstore Angeles</h3>
+        <br>
         <div class="form-container">
-            <input type="text" id="productInput" placeholder="Enter Product">
+            <input type="text" id="productInput" placeholder="Enter Item">
             <button id="checkButton">Check</button>
         </div>
         <div id="resultContainer"></div>
     </main>
+    <section>
+        <img src="ads.gif">
+    </section>
     <script>
         document.getElementById('checkButton').addEventListener('click', function() {
     const productInput = document.getElementById('productInput').value;
